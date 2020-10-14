@@ -1,9 +1,7 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.scss";
 import Title from "./components/Title";
-import Player from "./components/Player";
-import Scoreboard from "./components/Scoreboard";
+import Scoreboard from "./components/Scoreboard/Scoreboard";
 
 function App() {
   return (

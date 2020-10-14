@@ -1,13 +1,17 @@
 import React, { useState } from "react";
-import Player from "./Player";
-import AddPlayerForm from "./AddPlayerForm";
+import Player from "../Player/Player";
+import AddPlayerForm from "../AddPlayerForm";
+import "./Scoreboard.scss";
 
 export default function Scoreboard() {
+  // =============================================================================
+  // state declarations
+  // =============================================================================
+
+  // sorting state---------------------------------------------------------------------------
   const [sort_by, set_sort_by] = useState("score"); // either "score" or "name"
 
-  // =============================================================================
-  // Players array
-  // =============================================================================
+  // players state---------------------------------------------------------------------------
   const [players, set_players] = useState([
     { id: 1, name: "Violeta", score: 11 },
     { id: 2, name: "Eszter", score: 14 },
@@ -17,9 +21,12 @@ export default function Scoreboard() {
   // =============================================================================
   // Function declarations
   // =============================================================================
+
+  // Sortiong functions---------------------------------------------------------------------------
   function compare_score(player_a, player_b) {
     return player_b.score - player_a.score;
   }
+
   function compare_name(player_a, player_b) {
     const name_a = player_a.name.toUpperCase();
     const name_b = player_b.name.toUpperCase();
@@ -31,12 +38,13 @@ export default function Scoreboard() {
     }
     return 0;
   }
+
   // change sorting of the players----------------------------------------------------
   const change_sorting = (event) => {
     set_sort_by(event.target.value);
   };
 
-  // Defining the callback function to increment the score:--------------------------
+  // increment the score:--------------------------
   const incrementScore = (id) => {
     const newPlayers = [...players].map((player) => {
       if (player.id === id) {
@@ -47,6 +55,7 @@ export default function Scoreboard() {
     });
     set_players(newPlayers);
   };
+
   // Set score function---------------------------------------------------------------------------
   const setScore = (num) => {
     set_players(
@@ -70,15 +79,26 @@ export default function Scoreboard() {
     setScore(generateRandom0_100);
   };
 
-  // -----------------------------------------------------------------------------
-  // sorting the players
-  // -----------------------------------------------------------------------------
+  // sorting the players-----------------------------------------------------------------------------
 
   const players_sorted =
     sort_by === "score"
       ? [...players].sort(compare_score)
       : [...players].sort(compare_name);
 
+  // Adding new player-----------------------------------------------------------------------
+  const addPlayer = (newPlayer) => {
+    //console.log("Let's add a new player with the name:", name);
+    const ids = [...players].map((player) => player.id);
+    const uniqueId = Math.max(...ids) + 1;
+
+    const newPlayers = [
+      ...players,
+      { id: uniqueId + 1, name: newPlayer, score: 0 },
+    ];
+    console.log(newPlayers);
+    set_players(newPlayers);
+  };
   // =======================================================================
   // returning the component
   // =======================================================================
@@ -96,7 +116,7 @@ export default function Scoreboard() {
       <h1>Scoreboard</h1>
       {players_sorted.map((myPlayer) => {
         const { id, name, score } = myPlayer;
-        console.log(myPlayer);
+
         return (
           <Player
             key={id}
@@ -107,7 +127,7 @@ export default function Scoreboard() {
           />
         );
       })}
-      <AddPlayerForm />
+      <AddPlayerForm addPlayer={addPlayer} />
     </div>
   );
 }

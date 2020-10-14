@@ -1,4 +1,5 @@
 import React from "react";
+import "./Player.scss";
 
 const Player = ({ name, score, id, incrementScore }) => {
   const onClickIncrement = () => {
@@ -6,12 +7,13 @@ const Player = ({ name, score, id, incrementScore }) => {
     incrementScore(id);
   };
   return (
-    <div>
+    <li className="Player">
+      <div className="percentage_coloring" style={{ width: score + "%" }} />
       <p>
-        {name} {score}
+        {name} (score: {score})
         <button onClick={onClickIncrement}>increment</button>
       </p>
-    </div>
+    </li>
   );
 };
 

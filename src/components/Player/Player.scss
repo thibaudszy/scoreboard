@@ -1,0 +1,52 @@
+@import "../../style/config";
+
+.Player {
+  display: block; // instead of list-item
+  background: $light;
+  position: relative;
+
+  p {
+    margin: 0;
+    padding: 0.3rem 0.7rem 0.7rem;
+  }
+
+  .percentage_coloring {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 0.4rem;
+    background: $primary; // fallback for if the browser does not support gradients
+    background: linear-gradient(90deg, $secondary, $primary);
+  }
+  button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+
+    font-family: inherit;
+    color: teal;
+
+    border: none;
+    outline: none;
+
+    //background: grey;
+    // transition: all 0.2s ease;
+
+    // other styles
+
+    &:hover {
+      border: none;
+      outline: none;
+      background-color: gray;
+    }
+    &:active {
+      // styles for when the button is being pressed
+    }
+    &:focus {
+      // styles for when it has focus (e.g. with keyboard navigation)
+      border: none;
+      outline: none;
+    }
+  }
+}
