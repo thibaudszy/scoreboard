@@ -30,13 +30,7 @@ export default function Scoreboard() {
   function compare_name(player_a, player_b) {
     const name_a = player_a.name.toUpperCase();
     const name_b = player_b.name.toUpperCase();
-    if (name_a < name_b) {
-      return -1;
-    }
-    if (name_a > name_b) {
-      return 1;
-    }
-    return 0;
+    return name_a < name_b ? -1 : name_a > name_b ? 1 : 0;
   }
 
   // change sorting of the players----------------------------------------------------
@@ -46,24 +40,18 @@ export default function Scoreboard() {
 
   // increment the score:--------------------------
   const incrementScore = (id) => {
-    const newPlayers = [...players].map((player) => {
-      if (player.id === id) {
-        return { ...player, score: player.score + 1 };
-      } else {
-        return player;
-      }
-    });
+    const newPlayers = [...players].map((player) =>
+      player.id === id ? { ...player, score: player.score + 1 } : player
+    );
     set_players(newPlayers);
   };
 
   // Set score function---------------------------------------------------------------------------
   const setScore = (num) => {
     set_players(
-      [...players].map((player) => {
-        return !isNaN(num)
-          ? { ...player, score: num }
-          : { ...player, score: num() };
-      })
+      [...players].map((player) =>
+        !isNaN(num) ? { ...player, score: num } : { ...player, score: num() }
+      )
     );
   };
 
@@ -88,7 +76,6 @@ export default function Scoreboard() {
 
   // Adding new player-----------------------------------------------------------------------
   const addPlayer = (newPlayer) => {
-    //console.log("Let's add a new player with the name:", name);
     const ids = [...players].map((player) => player.id);
     const uniqueId = Math.max(...ids) + 1;
 
@@ -96,7 +83,6 @@ export default function Scoreboard() {
       ...players,
       { id: uniqueId + 1, name: newPlayer, score: 0 },
     ];
-    console.log(newPlayers);
     set_players(newPlayers);
   };
   // =======================================================================
