@@ -49,19 +49,13 @@ export default function Scoreboard() {
   };
   // Set score function---------------------------------------------------------------------------
   const setScore = (num) => {
-    if (!isNaN(num)) {
-      set_players(
-        [...players].map((player) => {
-          return { ...player, score: num };
-        })
-      );
-    } else {
-      set_players(
-        [...players].map((player) => {
-          return { ...player, score: num() };
-        })
-      );
-    }
+    set_players(
+      [...players].map((player) => {
+        return !isNaN(num)
+          ? { ...player, score: num }
+          : { ...player, score: num() };
+      })
+    );
   };
 
   // Reset function---------------------------------------------------------------------------
