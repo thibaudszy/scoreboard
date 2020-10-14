@@ -107,6 +107,7 @@ export default function Scoreboard() {
           />
         );
       })}
+      <AddPlayerForm />
     </div>
   );
 }
