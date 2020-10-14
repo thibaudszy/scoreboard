@@ -4,6 +4,7 @@ import AddPlayerForm from "./AddPlayerForm";
 
 export default function Scoreboard() {
   const [sort_by, set_sort_by] = useState("score"); // either "score" or "name"
+
   // =============================================================================
   // Players array
   // =============================================================================
@@ -30,9 +31,51 @@ export default function Scoreboard() {
     }
     return 0;
   }
+  // change sorting of the players----------------------------------------------------
   const change_sorting = (event) => {
     set_sort_by(event.target.value);
   };
+
+  // Defining the callback function to increment the score:--------------------------
+  const incrementScore = (id) => {
+    const newPlayers = [...players].map((player) => {
+      if (player.id === id) {
+        return { ...player, score: player.score + 1 };
+      } else {
+        return player;
+      }
+    });
+    set_players(newPlayers);
+  };
+  // Set score function---------------------------------------------------------------------------
+  const setScore = (num) => {
+    if (!isNaN(num)) {
+      set_players(
+        [...players].map((player) => {
+          return { ...player, score: num };
+        })
+      );
+    } else {
+      set_players(
+        [...players].map((player) => {
+          return { ...player, score: num() };
+        })
+      );
+    }
+  };
+
+  // Reset function---------------------------------------------------------------------------
+  const reset = () => {
+    setScore(0);
+  };
+  // Randomize function---------------------------------------------------------------------------
+  const randomize = () => {
+    const generateRandom0_100 = () => {
+      return Math.round(Math.random() * 100);
+    };
+    setScore(generateRandom0_100);
+  };
+
   // -----------------------------------------------------------------------------
   // sorting the players
   // -----------------------------------------------------------------------------
@@ -53,11 +96,22 @@ export default function Scoreboard() {
           <option value="score">Sort by score</option>
           <option value="name">Sort by name</option>
         </select>
+        <button onClick={reset}> Reset score</button>
+        <button onClick={randomize}> Randomize score</button>
       </p>
       <h1>Scoreboard</h1>
       {players_sorted.map((myPlayer) => {
         const { id, name, score } = myPlayer;
-        return <Player key={id} name={name} score={score} />;
+        console.log(myPlayer);
+        return (
+          <Player
+            key={id}
+            id={id}
+            name={name}
+            score={score}
+            incrementScore={incrementScore}
+          />
+        );
       })}
     </div>
   );
